@@ -1,5 +1,6 @@
-![Project Animation](animation.gif)
-
+<p align="center">
+  <img src="animation.gif" alt="Project Animation" width="700px">
+</p>
 
 # 🔐 RSA Modulus Encryption
 
