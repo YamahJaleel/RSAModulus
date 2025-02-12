@@ -1,5 +1,7 @@
 import random
 import sympy
+import bcrypt
+import uuid
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -11,9 +13,43 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute("DESCRIBE users")
-for row in mycursor.fetchall():
-    print(row)
+def Create_User():
+    # Generate a UUID for the user_id
+    user_id = str(uuid.uuid4())
+    username = "JohnDoe"
+    password = "SecretPassword"  # User's actual password
+
+    # Hash the password using bcrypt
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode(), salt)
+
+    # User's public key (for encryption-related storage, placeholder value)
+    public_key = "user_public_key_here"
+
+    # SQL query to insert a new user
+    insert_user_query = """
+    INSERT INTO users (user_id, username, password_hash, public_key) 
+    VALUES (%s, %s, %s, %s)
+    """
+
+    # Execute the query with user data
+    mycursor.execute(insert_user_query, (user_id, username, hashed_password.decode(), public_key))
+    mydb.commit()
+
+def print_all_users():
+    # Fetch all user data from the users table
+    mycursor.execute("SELECT * FROM users")
+
+    # Fetch all rows from the result
+    rows = mycursor.fetchall()
+
+    # Print the column names
+    column_names = [desc[0] for desc in mycursor.description]
+    print("\t".join(column_names))  # Prints headers
+
+    # Print each row
+    for row in rows:
+        print("\t".join(str(value) for value in row))
 
 #Generates a random prime number.
 def generate_prime():
@@ -65,6 +101,20 @@ def decrypt_message(encrypted_message, d, n):
     decrypted_message = ''.join(chr(pow(char, d, n)) for char in encrypted_message)  # Decrypt each character
     return decrypted_message
 
+def verify_user(username, entered_password):
+    # Fetch stored hash for the given username
+    mycursor.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
+    result = mycursor.fetchone()
+    
+    if result:
+        stored_hash = result[0].encode()  # Convert back to bytes for bcrypt verification
+        if bcrypt.checkpw(entered_password.encode(), stored_hash):
+            return "Login successful!"
+        else:
+            return "Invalid credentials."
+    else:
+        return "User not found."
+
 def test():
     # Generate two large prime numbers
     p = generate_prime()
@@ -91,7 +141,8 @@ def test():
     print("\n")
 
 
-
-
-#if __name__ == "__main__":
+if __name__ == "__main__":
     #test()
+    # Test the verification function
+    login_attempt = verify_user("JohnDoe", "SecretPassword")
+    print(login_attempt)  # Should print "Login successful!"
