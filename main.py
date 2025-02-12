@@ -1,5 +1,19 @@
 import random
 import sympy
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="",
+    user="",
+    password="",
+    database=""
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("DESCRIBE users")
+for row in mycursor.fetchall():
+    print(row)
 
 #Generates a random prime number.
 def generate_prime():
@@ -51,7 +65,7 @@ def decrypt_message(encrypted_message, d, n):
     decrypted_message = ''.join(chr(pow(char, d, n)) for char in encrypted_message)  # Decrypt each character
     return decrypted_message
 
-if __name__ == "__main__":
+def test():
     # Generate two large prime numbers
     p = generate_prime()
     q = generate_prime()
@@ -75,3 +89,9 @@ if __name__ == "__main__":
     decrypted_text = decrypt_message(encrypted_text, d, n)
     print("\nDecrypted Message:", decrypted_text)
     print("\n")
+
+
+
+
+#if __name__ == "__main__":
+    #test()
