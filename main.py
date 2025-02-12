@@ -2,13 +2,14 @@ import random
 import sympy
 import bcrypt
 import uuid
+import maskpass
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="",
-    user="",
-    password="",
-    database=""
+    host="localhost",
+    user="root",
+    password="Swaggerd01!",
+    database="MainDb"
 )
 
 mycursor = mydb.cursor()
@@ -36,7 +37,7 @@ def Create_User():
     mycursor.execute(insert_user_query, (user_id, username, hashed_password.decode(), public_key))
     mydb.commit()
 
-def print_all_users():
+def Print_all_users():
     # Fetch all user data from the users table
     mycursor.execute("SELECT * FROM users")
 
@@ -101,6 +102,14 @@ def decrypt_message(encrypted_message, d, n):
     decrypted_message = ''.join(chr(pow(char, d, n)) for char in encrypted_message)  # Decrypt each character
     return decrypted_message
 
+def login():
+    User = input("Enter Username -> ")
+    Password = maskpass.askpass(prompt="Password -> ", mask="*") 
+
+    # Test the verification function
+    login_attempt = verify_user(User, Password)
+    print(login_attempt)  # Should print "Login successful!"
+
 def verify_user(username, entered_password):
     # Fetch stored hash for the given username
     mycursor.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
@@ -143,6 +152,5 @@ def test():
 
 if __name__ == "__main__":
     #test()
-    # Test the verification function
-    login_attempt = verify_user("JohnDoe", "SecretPassword")
-    print(login_attempt)  # Should print "Login successful!"
+    login()
+    
