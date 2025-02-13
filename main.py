@@ -6,10 +6,10 @@ import maskpass
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Swaggerd01!",
-    database="MainDb"
+    host="",
+    user="",
+    password="",
+    database=""
 )
 
 mycursor = mydb.cursor()
