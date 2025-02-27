@@ -1,0 +1,4 @@
+sympy
+mysql-connector-python
+maskpass
+bcrypt
