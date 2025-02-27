@@ -4,17 +4,23 @@
 
 # 🔐 RSA Modulus Encryption
 
-Welcome to **RSA Modulus Encryption**, a simple Python-based RSA encryption and decryption program. This project demonstrates how to securely encrypt and decrypt messages using the **RSA algorithm**, one of the most widely used encryption techniques.
+Welcome to **RSA Modulus Encryption**, a simple Python-based RSA encryption and decryption program. This project demonstrates how to securely encrypt and decrypt messages using the **RSA algorithm**, one of the most widely used encryption techniques. The project has been refactored into multiple modules for better organization and maintainability.
 
 ---
 
 ## 📌 Features
 
-✅ Generates **random prime numbers** for encryption keys.\
-✅ Creates **public and private keys** dynamically.\
-✅ **Encrypts messages** using modular exponentiation.\
-✅ **Decrypts messages** back to the original text.\
-✅ Simple and easy-to-understand implementation.
+- **Modular Code Structure:**  
+  The project is split into multiple modules:
+  - **database.py:** Handles the database connection and fallback in-memory storage.
+  - **encryption.py:** Contains the RSA key generation, encryption, and decryption functions.
+  - **user_management.py:** Manages user registration, login, profile updates, and the CLI interface.
+  - **main.py:** The entry point that ties everything together.
+- **RSA Key Generation:** Generates two random prime numbers, computes the public and private keys.
+- **Encryption/Decryption:** Encrypts messages using modular exponentiation and decrypts them back to the original text.
+- **Fallback Storage:** If a database connection isn’t available, the program uses an in-memory fallback for user data.
+- **User Management:** Allows user registration, login, password recovery, and profile updates.
+- **Logging:** Logs important events and errors for debugging and monitoring.
 
 ---
 
@@ -24,7 +30,6 @@ Welcome to **RSA Modulus Encryption**, a simple Python-based RSA encryption and 
 
 ```bash
 git clone https://github.com/YamahJaleel/RSAModulus.git
-cd RSAModulus
 ```
 
 ### **2️⃣ Install Dependencies**
@@ -32,10 +37,10 @@ cd RSAModulus
 Make sure you have Python **3.7+** installed. Install required libraries:
 
 ```bash
-pip install sympy
+pip install -r requirements.txt
 ```
 
-### **3️⃣ Run the Encryption Program**
+### **3️⃣ Run the Program**
 
 ```bash
 python main.py
