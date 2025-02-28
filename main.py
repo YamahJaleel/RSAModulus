@@ -1,6 +1,6 @@
 import logging
 
-# Set up logging to file (as before)
+# Set up logging to file
 logging.basicConfig(level=logging.INFO, filename='app.log',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
